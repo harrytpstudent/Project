@@ -87,7 +87,7 @@ class MeetingController():
         self._storeDocumentText(document_links)
 
     def _storeDocumentText(self, document_links):
-        """ Stpre the found document html text in a dictionary"""
+        """ Store the found document html text in a dictionary"""
         base_url = "https://www.sec.gov"
         documents = {}
         document_number = 1
