@@ -34,6 +34,7 @@ class MeetingController():
         return resolutions
 
     def getMeetingData(self, search_term, start_date, end_date):
+        """ Get all the meeting data from the search terms and dates"""
         self._getCompanyNames(search_term, start_date, end_date)
 
         if self.checkOnlyOneCompany(search_term):
@@ -46,6 +47,7 @@ class MeetingController():
             return found_names
 
     def checkOnlyOneCompany(self, searched_name):
+		"""Check that the parsing only finds one company"""
         if not self.found_com_names: return False
         if len(self.found_com_names) > 1:
             for name in self.found_com_names:
@@ -61,6 +63,7 @@ class MeetingController():
         return True
 
     def _getCompanyNames(self, search_term, start_date, end_date):
+        """Retrieve the html from link result and search for company names"""
         blacklist = ["[text]", "[html]"]
         link="https://www.sec.gov/cgi-bin/srch-edgar?text=DEF+14A+company-name=({0})&first={1}&last={2}".format(search_term, start_date, end_date)
         doc_html = self.doc_retriever.getDocHTML(link)
@@ -73,6 +76,7 @@ class MeetingController():
                 self.found_com_names.add(link.contents[0])
 
     def _getDocumentTextLink(self):
+        """Gets the .txt version of the target html document"""
         company_name = self._final_com_name.pop()
         document_links = []
         for link in self._found_links:
@@ -83,6 +87,7 @@ class MeetingController():
         self._storeDocumentText(document_links)
 
     def _storeDocumentText(self, document_links):
+        """ Stpre the found document html text in a dictionary"""
         base_url = "https://www.sec.gov"
         documents = {}
         document_number = 1
